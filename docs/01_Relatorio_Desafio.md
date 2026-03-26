@@ -1,4 +1,4 @@
-# Relatório de Execução do Case Técnico: Global Support Engineer Sênior
+# Relatório de Execução do Case Técnico: Global Support Engineer
 
 **Candidato:** Filipe Éviton Anacleto  
 **Vaga:** Global Support Engineer - **Segura**  
