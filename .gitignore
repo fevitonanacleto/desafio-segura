@@ -1,0 +1,20 @@
+# Infraestrutura como Código (IaC) e Local
+.terraform/
+*.tfstate
+*.tfstate.backup
+.terraform.tfstate.lock.info
+*.tfvars
+
+# Vagrant Local
+.vagrant/
+*.vdi
+*.vmdk
+
+# Documentos Sujos e OS
+.DS_Store
+Thumbs.db
+
+# Credenciais e Arquivos Sensíveis
+keys.txt
+iam_policy.json
+*.pem

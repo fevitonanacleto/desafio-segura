@@ -1,0 +1,235 @@
+/* Variáveis Extraídas Absolutamente do Print do Site SEGURA fornecido pelo Candidato */
+:root {
+    --segura-dark: #063D31;    /* Verde/Slate escuro lindíssimo de fundo */
+    --segura-mint: #00C49F;    /* Verde Água Brilhante dos Botões secundários e icones */
+    --segura-orange: #F48B60;  /* Laranja Vivo do botão de Pedir Demo */
+    --segura-bg: #F8FAF9;      /* Cinza/Branco super leve de navegação */
+    --text-light: #FFFFFF;
+    --text-muted: #A3C9C0;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Inter', -apple-system, sans-serif;
+}
+
+body {
+    background-color: var(--segura-dark);
+    /* Fundo Dark rico inspirado neles, com um toque radial futurista */
+    background: radial-gradient(circle at 10% 20%, #08483b 0%, var(--segura-dark) 80%);
+    color: var(--text-light);
+    height: 100vh;
+    overflow: hidden; /* Não tem barra de rolagem, é formato palestra literal */
+}
+
+/* Onde a mágica visual acontece */
+.slides-container {
+    width: 100%;
+    height: 100vh;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.slide {
+    position: absolute;
+    width: 85%;
+    max-width: 1200px;
+    height: 80vh;
+    opacity: 0;
+    transform: translateY(40px) scale(0.95);
+    visibility: hidden;
+    transition: all 0.6s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+.slide.active {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0) scale(1);
+    z-index: 10;
+}
+
+/* Glassmorphism: Placa de vidro tecnológico por cima do verde Segura */
+.glass-card {
+    background: rgba(255, 255, 255, 0.03);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-top: 1px solid rgba(0, 196, 159, 0.4); /* Reflete a Cor Mint */
+    border-radius: 20px;
+    padding: 4rem;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    box-shadow: 0 25px 50px -12px rgba(0,0,0,0.5);
+}
+
+/* Tipografia Fidedigna */
+h1 {
+    font-size: 3.5rem;
+    font-weight: 900;
+    line-height: 1.1;
+    margin-bottom: 0.5rem;
+}
+
+h2 {
+    font-size: 2.2rem;
+    font-weight: 700;
+    color: var(--segura-mint);
+    margin-bottom: 1.5rem;
+}
+
+p {
+    font-size: 1.25rem;
+    line-height: 1.6;
+    color: var(--text-muted);
+    margin-bottom: 1.5rem;
+}
+
+.accent-line {
+    width: 80px;
+    height: 6px;
+    background: var(--segura-orange);
+    border-radius: 3px;
+    margin: 2rem 0;
+}
+
+/* Botões com a cor Pedir Demo da Empresa Segura */
+.primary-btn {
+    background: var(--segura-orange);
+    color: #fff;
+    border: none;
+    padding: 1rem 2rem;
+    font-size: 1.1rem;
+    font-weight: 600;
+    border-radius: 8px;
+    cursor: pointer;
+    width: max-content;
+    transition: transform 0.2s, background 0.2s;
+}
+
+.primary-btn:hover {
+    background: #E07144; /* darker orange escurecido levemente */
+    transform: translateY(-2px);
+}
+
+.badge {
+    background: rgba(0, 196, 159, 0.2);
+    color: var(--segura-mint);
+    padding: 5px 12px;
+    border-radius: 12px;
+    font-size: 0.9rem;
+    font-weight: bold;
+    display: inline-block;
+    margin-bottom: 15px;
+}
+
+.badge.highlight { background: rgba(244, 139, 96, 0.2); color: var(--segura-orange); }
+.badge.warning { background: rgba(255, 255, 255, 0.1); color: #FFF; }
+
+/* Estrutura de Dividir Tela 50/50 */
+.split-layout {
+    flex-direction: row !important;
+    gap: 3rem;
+    align-items: center;
+}
+.text-content, .code-content {
+    flex: 1;
+}
+
+/* Telinhas Fake do Mac pro Código CSS ficar animal */
+.code-window {
+    background: #1d1f21;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    border: 1px solid rgba(255,255,255,0.05);
+}
+.mac-header {
+    background: #2d2d2d;
+    padding: 10px 15px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    border-bottom: 1px solid rgba(0,0,0,0.3);
+}
+.mac-header .dot {
+    width: 12px; height: 12px; border-radius: 50%;
+}
+.dot.red { background: #ff5f56; }
+.dot.yellow { background: #ffbd2e; }
+.dot.green { background: #27c93f; }
+.filename {
+    margin-left: 10px; font-size: 0.8rem; color: #888; font-family: monospace;
+}
+.code-window pre {
+    margin: 0 !important;
+    background: transparent !important;
+    font-size: 0.95rem;
+}
+
+/* Imagens para o Usuário preencher */
+.evidence-grid {
+    display: flex;
+    gap: 2rem;
+    margin-top: 2rem;
+}
+.evidence-box {
+    flex: 1;
+    background: rgba(0,0,0,0.2);
+    border-radius: 12px;
+    padding: 15px;
+    text-align: center;
+}
+.mock-screenshot {
+    width: 100%;
+    border-radius: 8px;
+    margin-bottom: 1rem;
+    object-fit: contain;
+}
+.full-image {
+    max-height: 400px;
+    width: auto;
+    display: block;
+    margin: auto;
+    border: 2px solid var(--segura-mint);
+}
+
+/* Barra de Progresso inferior (Tipo Palestra Google IO) */
+.progress-bar {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 5px;
+    background: rgba(255,255,255,0.1);
+}
+.progress-fill {
+    height: 100%;
+    background: var(--segura-mint);
+    width: 0%;
+    transition: width 0.3s ease;
+}
+
+/* Controles Base */
+.nav-control {
+    position: absolute; top: 0; height: 100%; width: 50px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 2rem; color: rgba(255,255,255,0.2); cursor: pointer;
+    transition: color 0.3s, background 0.3s; z-index: 100;
+}
+#nav-left { left: 0; }
+#nav-right { right: 0; }
+.nav-control:hover { color: var(--segura-mint); background: rgba(0,0,0,0.1); }
+
+.brand-logo { width: 150px; margin-bottom: 2rem; }
+.brand-logo.small { width: 100px; margin: auto; margin-bottom: 2rem; display: block; }
+
+.text-center { text-align: center; justify-content: center; align-items: center;}
+.feature-list { list-style: none; margin-top: 1rem;}
+.feature-list li { margin-bottom: 0.8rem; font-size: 1.1rem; color: #fff;}
+.feature-list span { color: var(--segura-mint); margin-right: 10px; font-weight: bold;}

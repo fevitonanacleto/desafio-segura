@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Case Técnico - Segura | Global Support Engineer</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;500;700;900&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .split-layout { gap: 1.5rem; }
+        .text-content p { font-size: 1.1rem; }
+    </style>
+</head>
+<body>
+
+    <div id="nav-left" class="nav-control" onclick="prevSlide()">❮</div>
+    <div id="nav-right" class="nav-control" onclick="nextSlide()">❯</div>
+
+    <div class="slides-container">
+        
+        <!-- SLIDE 1: CAPA -->
+        <section class="slide active">
+            <div class="glass-card">
+                <img src="logo.png" alt="Segura Logo" class="brand-logo" onerror="this.style.display='none'">
+                <h1>Engenharia de Cloud & Confiabilidade</h1>
+                <h2>Apresentação Técnica do Desafio Sênior</h2>
+                <div class="accent-line"></div>
+                <p>Abordagem Zero-Trust, Automação Declarativa Terraform e Observabilidade Masterizada.</p>
+                <button class="primary-btn" onclick="nextSlide()">Explorar a Arquitetura Projetada</button>
+            </div>
+        </section>
+
+        <!-- SLIDE 2: O Desafio Edital (Local LVM) -->
+        <section class="slide">
+            <div class="glass-card split-layout">
+                <div class="text-content">
+                    <span class="badge">O Desafio Básico de Edital</span>
+                    <h2>Cenário On-Premises Preciso (VirtualBox)</h2>
+                    <p>Subir o Host de monitoramento rigorosamente alinhado ao Desafio de RH: VirtualBox de Custo Zero operando via automação Vagrant (IaC), configurando LVM perfeitamente e 4GB RAM + 2 vCPU sem UI Gráfica ou cliques sujos.</p>
+                    <div class="evidence-box" style="margin-top:10px;">
+                        <img src="evidencia_local_lvm.png" alt="A foto do LVS lscpu vai aqui" class="mock-screenshot" onerror="this.src='https://placehold.co/500x300/003b2b/00c49f?text=INSIRA_PRINT_DO_LSCPU_LVM_AQUI'">
+                    </div>
+                </div>
+                <div class="code-content">
+                    <div class="code-window">
+                        <div class="mac-header"><span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span> <span class="filename">Vagrantfile (Trecho LVM)</span></div>
+                        <pre><code class="language-ruby">
+# Fixando Hardware
+vb.memory = "4096"
+vb.cpus = 2
+vb.customize ['createhd', '--filename', './disk.vdi', '--size', 20480]
+
+# Implantando LVM Sem Falha Humana
+agt.vm.provision "shell", inline: <<-SHELL
+  pvcreate /dev/sdb
+  vgcreate vg_data /dev/sdb
+  lvcreate -l 100%FREE -n lv_data vg_data
+  mkfs.ext4 /dev/vg_data/lv_data
+SHELL
+                        </code></pre>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SLIDE 3: O Terraform Puto CÓDIGO -->
+        <section class="slide">
+            <div class="glass-card split-layout">
+                <div class="code-content">
+                    <div class="code-window">
+                        <div class="mac-header"><span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span> <span class="filename">compute.tf (IaC AWS)</span></div>
+                        <pre><code class="language-javascript">
+resource "aws_instance" "srv_debian" {
+  ami                         = data.aws_ami.debian12.id
+  instance_type               = "t3.micro"
+  subnet_id                   = aws_subnet.subnet_publica.id
+  vpc_security_group_ids      = [aws_security_group.sg_srv_debian.id]
+  iam_instance_profile        = aws_iam_instance_profile.ssm.name
+  
+  root_block_device {
+    volume_size = 15
+    volume_type = "gp3"
+  }
+}
+                        </code></pre>
+                    </div>
+                </div>
+                <div class="text-content">
+                    <span class="badge highlight">Visão Sênior Adicional</span>
+                    <h2>Espelho na Nuvem Pura (AWS IaC)</h2>
+                    <p>Além de entregar o local, implementei o ambiente em uma Cloud moderna (AWS). Todo o provisionamento da EC2, Subnets Públicas, Roteamentos de Internet Gateway (IGW) e Gestão Dinâmica de Estados foi versionado no "Infra-as-code" Terraform. Menos cliques de UI, extrema consistência de infra.</p>
+                </div>
+            </div>
+        </section>
+        
+        <!-- SLIDE 4: VPC e CONSOLE AWS -->
+        <section class="slide">
+            <div class="glass-card text-center">
+                <span class="badge warning">Enterprise Network</span>
+                <h2>VPC, Subnets Dedicada e Tiers</h2>
+                <p style="max-width:800px; margin:auto; margin-bottom: 2rem;">Os servidores rodam em malhas lógicas perfeitamente isoladas, provando a fundação sólida de rede e provisionamento na nuvem da AWS. Veja as EC2 Zabbix operantes:</p>
+                <!-- Evidencia do painel da AWS com a ec2 ligada e IPs -->
+                <img src="evidencia_aws_console.png" alt="Console AWS" class="mock-screenshot full-image" onerror="this.src='https://placehold.co/1000x400/003b2b/f48b60?text=INSIRA_FOTO_DO_PAINEL_DA_AWS_COM_INSTANCIAS_AQUI'">
+            </div>
+        </section>
+
+        <!-- SLIDE 5: HARDENING DE OS -->
+        <section class="slide">
+            <div class="glass-card split-layout">
+                <div class="text-content">
+                    <span class="badge warning">SecOps & Hardening</span>
+                    <h2>Blindagem ao Nível do Kernel</h2>
+                    <p>O desafio não pedia segurança explícita, mas um Global Support Engineer Sênior jamais projeta ambientes abertos. Programei um Shell System para erradicar da fundação o maior vetor de ataque Linux: o serviço de SSH (Purga de Pacotes).</p>
+                    <ul class="feature-list" style="margin-top:1rem;">
+                        <li><span>✔</span> Purge do openssh-server local</li>
+                        <li><span>✔</span> Mitigação Sysctl p/ SYN Flood/IP Spoofing</li>
+                        <li><span>✔</span> Proteção anti Roteamento Malicioso em Rede</li>
+                    </ul>
+                </div>
+                <div class="code-content">
+                    <div class="code-window">
+                        <div class="mac-header"><span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span> <span class="filename">user_data.sh (Shell Hardening Exclusivo)</span></div>
+                        <pre><code class="language-bash">
+# Purga completa de acessos remotos tradicionais SSH
+systemctl stop ssh || true
+systemctl disable ssh || true
+apt-get purge -y openssh-server
+
+# Hardening Anti DDOs de Sysctl (SYN flood, IP Spoof)
+cat << 'EOF' > /etc/sysctl.d/99-security.conf
+net.ipv4.conf.all.accept_source_route = 0
+net.ipv4.conf.all.accept_redirects = 0
+net.ipv4.tcp_syncookies = 1
+EOF
+
+sysctl -p /etc/sysctl.d/99-security.conf
+                        </code></pre>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SLIDE 6: ZERO TRUST E SSM -->
+        <section class="slide">
+            <div class="glass-card text-center">
+                <span class="badge highlight">PAM Core Vision - Segura</span>
+                <h2>Gestão Sem Chaves (AWS Systems Manager)</h2>
+                <br>
+                <div style="max-width: 900px; margin: auto;">
+                    <img src="evidencia_ssm_prompt.png" alt="Tela preta ssm" class="mock-screenshot" onerror="this.src='https://placehold.co/900x350/003b2b/00c49f?text=INSIRA_PRINT_DO_PROMPT_SSM-USER_AQUI'" style="width: 100%; border-radius: 10px; border: 2px solid #00C49F;">
+                </div>
+                <p style="margin-top: 1.5rem; text-align: left; max-width:900px; margin-inline:auto;">Acesso absoluto ao ambiente operacional puramente via console web/SSM utilizando Instance Profiles do IAM. Totalmente "safeless" (sem vazamento de chaves .pem corporativas). Alinhamento perfeito ao propósito do produto core da sua empresa.</p>
+            </div>
+        </section>
+
+        <!-- SLIDE 7: OBSERVABILIDADE ZABBIX -->
+        <section class="slide">
+            <div class="glass-card text-center">
+                <span class="badge highlight">O Desafio Núcleo</span>
+                <h2>Monitoramento Lógico Zabbix e Incidentes</h2>
+                <div style="max-width: 900px; margin: auto; margin-top:10px;">
+                    <!-- A foto do desastre Zabbix (Vermelho) ou Dashboard -->
+                    <img src="evidencia_zabbix.png" alt="Zabbix Alarm" class="mock-screenshot full-image" onerror="this.src='https://placehold.co/1000x350/003b2b/ff4444?text=INSIRA_A_FOTO_DO_ALERTA_VERMELHO_ZABBIX_AQUI'">
+                </div>
+                <p style="margin-top: 1rem; text-align: left; max-width:900px; margin-inline:auto;">
+                    Integração fina entre Zabbix Server e os Daemons do Agent instalados nas pontas (Hosts ativos com as flags ZBX verdes). E prova visual da resposta do sistema detectando o "Kill Cíclico" (Alarme Not Available 3m) no servidor local.
+                </p>
+            </div>
+        </section>
+
+        <!-- SLIDE 8: DATA VISUALIZATION GRAFANA -->
+        <section class="slide">
+            <div class="glass-card text-center">
+                <img src="logo.png" alt="Segura Logo" class="brand-logo small" onerror="this.style.display='none'">
+                <h2>A Camada de Data Visualization</h2>
+                <h3 style="color:#00C49F; font-weight:300;">Integração via API Segura com Grafana Dashboard</h3>
+                <br>
+                <div style="max-width: 900px; margin: auto;">
+                    <img src="evidencia_grafana.png" alt="Grafana" class="mock-screenshot" onerror="this.src='https://placehold.co/900x400/003b2b/00c49f?text=INSIRA_PRINT_DO_GRAFANA_AQUI'" style="width: 100%; border-radius: 10px; border: 2px solid #00C49F;">
+                </div>
+            </div>
+        </section>
+        
+        <!-- SLIDE 9: FIM -->
+        <section class="slide">
+            <div class="glass-card text-center">
+                <img src="logo.png" alt="Segura Logo" class="brand-logo" onerror="this.style.display='none'">
+                <h2>Muito obrigado pelo tempo.</h2>
+                <div class="accent-line" style="margin:auto; margin-bottom: 2rem;"></div>
+                <p>Uma arquitetura só é forte quando suportada por uma mentalidade e uma fundação segura. As ferramentas apenas acompanham o engenheiro.</p>
+                <br>
+                <button class="primary-btn" onclick="prevSlide()">Rever Arquitetura</button>
+            </div>
+        </section>
+
+    </div>
+
+    <div class="progress-bar">
+        <div id="progress" class="progress-fill"></div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-ruby.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-javascript.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-bash.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>

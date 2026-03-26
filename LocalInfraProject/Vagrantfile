@@ -1,0 +1,65 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+Vagrant.configure("2") do |config|
+  # Base idêntica à nuvem: Debian 12 (Bookworm)
+  config.vm.box = "debian/bookworm64"
+
+  # ==========================================
+  # VM 1: Servidor Zabbix (Desafio exige sistema livre)
+  # Specs Forçadas: 2 vCPU, 4GB RAM, IP: 192.168.56.20
+  # ==========================================
+  config.vm.define "srv_zabbix" do |zbx|
+    zbx.vm.hostname = "srv-zabbix-local"
+    zbx.vm.network "private_network", ip: "192.168.56.20"
+    
+    zbx.vm.provider "virtualbox" do |vb|
+      vb.name = "srv-zabbix-local"
+      vb.memory = "4096"
+      vb.cpus = 2
+    end
+    zbx.vm.provision "shell", path: "install_zabbix.sh"
+    zbx.vm.provision "shell", path: "install_grafana_zabbix_plugin.sh"
+  end
+
+  # ==========================================
+  # VM 2: Hospedeiro Monitorado (Desafio: Debian 12)
+  # Specs Forçadas: 2 vCPU, 4GB RAM, Disco LVM Obligatório (20GB)
+  # ==========================================
+  config.vm.define "srv_debian" do |agt|
+    agt.vm.hostname = "srv-debian-monitorado-local"
+    agt.vm.network "private_network", ip: "192.168.56.10"
+    
+    agt.vm.provider "virtualbox" do |vb|
+      vb.name = "srv-debian-monitorado-local"
+      vb.memory = "4096"
+      vb.cpus = 2
+      # Anexa um disco extra real de 20GB para criarmos o LVM
+      file_to_disk = "./srv-debian-lvm-20gb.vdi"
+      unless File.exist?(file_to_disk)
+        vb.customize ['createhd', '--filename', file_to_disk, '--size', 20480]
+      end
+      vb.customize ['storageattach', :id, '--storagectl', 'SATA Controller', '--port', 1, '--device', 0, '--type', 'hdd', '--medium', file_to_disk]
+    end
+
+    # Instala pacote LVM2 e cria o Volume no Padrão Profissional Silenciosamente
+    agt.vm.provision "shell", inline: <<-SHELL
+      apt-get update -y
+      apt-get install -y lvm2
+      pvcreate /dev/sdb
+      vgcreate vg_data /dev/sdb
+      lvcreate -l 100%FREE -n lv_data vg_data
+      mkfs.ext4 /dev/vg_data/lv_data
+      mkdir -p /dados_zabbix
+      echo '/dev/vg_data/lv_data /dados_zabbix ext4 defaults 0 0' >> /etc/fstab
+      mount -a
+      echo "[+] Disco de 20GB LVM configurado e montado em /dados_zabbix"
+    SHELL
+
+    agt.vm.provision "shell", path: "install_agent.sh"
+    agt.vm.provision "shell", inline: <<-SHELL
+      sed -i 's/10.0.1.20/192.168.56.20/g' /etc/zabbix/zabbix_agentd.conf
+      systemctl restart zabbix-agent
+    SHELL
+  end
+end
