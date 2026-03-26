@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,19 +9,35 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="styles.css">
     <style>
-        .split-layout { gap: 1.5rem; }
-        .text-content p { font-size: 1.1rem; }
-        .double-img { display: flex; gap: 10px; margin-top: 10px; }
-        .double-img img { width: 48%; border-radius: 8px; border: 1px solid var(--segura-mint); }
+        .split-layout {
+            gap: 1.5rem;
+        }
+
+        .text-content p {
+            font-size: 1.1rem;
+        }
+
+        .double-img {
+            display: flex;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .double-img img {
+            width: 48%;
+            border-radius: 8px;
+            border: 1px solid var(--segura-mint);
+        }
     </style>
 </head>
+
 <body>
 
     <div id="nav-left" class="nav-control" onclick="prevSlide()">❮</div>
     <div id="nav-right" class="nav-control" onclick="nextSlide()">❯</div>
 
     <div class="slides-container">
-        
+
         <!-- SLIDE 1: CAPA -->
         <section class="slide active">
             <div class="glass-card">
@@ -39,16 +56,21 @@
                 <div class="text-content">
                     <span class="badge">O Desafio Básico de Edital</span>
                     <h2>Cenário On-Premises Preciso (VirtualBox)</h2>
-                    <p>Subir o Host de monitoramento rigorosamente alinhado ao Desafio de RH: VirtualBox de Custo Zero operando via automação Vagrant (IaC), configurando LVM perfeitamente e 4GB RAM + 2 vCPU sem cliques sujos na UI Graphical.</p>
+                    <p>Subir o Host de monitoramento rigorosamente alinhado ao Desafio de RH: VirtualBox de Custo Zero
+                        operando via automação Vagrant (IaC), configurando LVM perfeitamente e 4GB RAM + 2 vCPU sem
+                        cliques sujos na UI Graphical.</p>
                     <div class="double-img">
                         <img src="../../evidencias/local/host-local-cpu.png" alt="CPU">
                         <img src="../../evidencias/local/host-local-ram.png" alt="RAM">
                     </div>
-                    <img src="../../evidencias/local/host-local-disk.png" style="width:100%; margin-top:10px; border-radius:8px; border:1px solid var(--segura-mint);" alt="LVM">
+                    <img src="../../evidencias/local/host-local-disk.png"
+                        style="width:100%; margin-top:10px; border-radius:8px; border:1px solid var(--segura-mint);"
+                        alt="LVM">
                 </div>
                 <div class="code-content">
                     <div class="code-window" style="height: 100%;">
-                        <div class="mac-header"><span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span> <span class="filename">Vagrantfile (Trecho LVM)</span></div>
+                        <div class="mac-header"><span class="dot red"></span><span class="dot yellow"></span><span
+                                class="dot green"></span> <span class="filename">Vagrantfile (Trecho LVM)</span></div>
                         <pre><code class="language-ruby">
 # Fixando Hardware
 vb.memory = "4096"
@@ -73,7 +95,8 @@ SHELL
             <div class="glass-card split-layout">
                 <div class="code-content">
                     <div class="code-window">
-                        <div class="mac-header"><span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span> <span class="filename">compute.tf (IaC AWS)</span></div>
+                        <div class="mac-header"><span class="dot red"></span><span class="dot yellow"></span><span
+                                class="dot green"></span> <span class="filename">compute.tf (IaC AWS)</span></div>
                         <pre><code class="language-javascript">
 resource "aws_instance" "srv_debian" {
   ami                         = data.aws_ami.debian12.id
@@ -93,29 +116,40 @@ resource "aws_instance" "srv_debian" {
                 <div class="text-content">
                     <span class="badge highlight">Visão Sênior Adicional</span>
                     <h2>Espelho na Nuvem Pura (AWS IaC)</h2>
-                    <p>Além de entregar o local, implementei o ambiente em uma Cloud moderna (AWS). Todo o provisionamento da EC2, Subnets Públicas, Roteamentos de Internet Gateway (IGW) e Gestão Dinâmica de Estados foi versionado no "Infra-as-code" Terraform. Menos cliques de UI, extrema consistência de infra.</p>
+                    <p>Além de entregar o local, implementei o ambiente em uma Cloud moderna (AWS). Todo o
+                        provisionamento da EC2, Subnets Públicas, Roteamentos de Internet Gateway (IGW) e Gestão
+                        Dinâmica de Estados foi versionado no "Infra-as-code" Terraform. Menos cliques de UI, extrema
+                        consistência de infra.</p>
                 </div>
             </div>
         </section>
-        
+
         <!-- SLIDE 4: IAM e Políticas Mínimas -->
         <section class="slide">
             <div class="glass-card text-center">
                 <span class="badge warning">IAM e Governança (SecOps)</span>
                 <h2>Gestão de Identidade Radical (Least Privilege)</h2>
-                <p style="max-width:800px; margin:auto; margin-bottom: 2rem;">Aderindo ao DNA dos produtos de PAM da Segura, a automação do Terraform rejeitou o uso predatório e fácil de permissões sistêmicas <i>(FullAccess)</i>. O processo IaC foi desenhado usando a política de <b>Privilégio Mínimo</b> via arquitetura JSON cirúrgica. Um robô com capacidade matemática apenas de ler e intervir nos recursos exclusivos do escopo do desafio.</p>
+                <p style="max-width:800px; margin:auto; margin-bottom: 2rem;">Aderindo ao DNA dos produtos de PAM da
+                    Segura, a automação do Terraform rejeitou o uso predatório e fácil de permissões sistêmicas
+                    <i>(FullAccess)</i>. O processo IaC foi desenhado usando a política de <b>Privilégio Mínimo</b> via
+                    arquitetura JSON cirúrgica. Um robô com capacidade matemática apenas de ler e intervir nos recursos
+                    exclusivos do escopo do desafio.
+                </p>
                 <div style="max-width: 800px; margin: auto;">
-                    <img src="../../evidencias/aws/evidencia_aws_iam.png" alt="Tela do AWS IAM" class="mock-screenshot" style="border: 1px solid var(--segura-mint); border-radius: 10px;">
+                    <img src="../../evidencias/aws/evidencia_aws_iam.png" alt="Tela do AWS IAM" class="mock-screenshot"
+                        style="border: 1px solid var(--segura-mint); border-radius: 10px; max-height: 35vh; width: 100%; object-fit: contain; background: #000;">
                 </div>
             </div>
         </section>
-        
+
         <!-- SLIDE 5: VPC e CONSOLE AWS -->
         <section class="slide">
             <div class="glass-card text-center">
                 <span class="badge warning">Enterprise Network</span>
                 <h2>VPC, Subnets Dedicada e Tiers</h2>
-                <p style="max-width:800px; margin:auto; margin-bottom: 1rem;">Os servidores rodam em malhas lógicas perfeitamente isoladas, provando a fundação sólida de rede e provisionamento na nuvem da AWS. Veja as arquiteturas VPC Topologies e EC2 ativas:</p>
+                <p style="max-width:800px; margin:auto; margin-bottom: 1rem;">Os servidores rodam em malhas lógicas
+                    perfeitamente isoladas, provando a fundação sólida de rede e provisionamento na nuvem da AWS. Veja
+                    as arquiteturas VPC Topologies e EC2 ativas:</p>
                 <div class="double-img" style="justify-content: center;">
                     <img src="../../evidencias/aws/aws-vpc-resource-map.png" alt="VPC Map">
                     <img src="../../evidencias/aws/evidencia_aws_console.png" alt="Console AWS">
@@ -129,7 +163,9 @@ resource "aws_instance" "srv_debian" {
                 <div class="text-content">
                     <span class="badge warning">SecOps & Hardening</span>
                     <h2>Blindagem ao Nível do Kernel</h2>
-                    <p>O desafio não pedia segurança explícita, mas um Global Support Engineer Sênior jamais projeta ambientes abertos. Programei um Shell System para erradicar da fundação o maior vetor de ataque Linux: o serviço de SSH (Purga de Pacotes).</p>
+                    <p>O desafio não pedia segurança explícita, mas um Global Support Engineer jamais projeta ambientes
+                        abertos. Programei um Shell System para erradicar da fundação o maior vetor de ataque Linux: o
+                        serviço de SSH (Purga de Pacotes).</p>
                     <ul class="feature-list" style="margin-top:1rem;">
                         <li><span>✔</span> Purge do openssh-server local</li>
                         <li><span>✔</span> Mitigação Sysctl p/ SYN Flood/IP Spoofing</li>
@@ -138,7 +174,9 @@ resource "aws_instance" "srv_debian" {
                 </div>
                 <div class="code-content">
                     <div class="code-window">
-                        <div class="mac-header"><span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span> <span class="filename">user_data.sh (Shell Hardening Exclusivo)</span></div>
+                        <div class="mac-header"><span class="dot red"></span><span class="dot yellow"></span><span
+                                class="dot green"></span> <span class="filename">user_data.sh (Shell Hardening
+                                Exclusivo)</span></div>
                         <pre><code class="language-bash">
 # Purga completa de acessos remotos tradicionais SSH
 systemctl stop ssh || true
@@ -166,12 +204,35 @@ sysctl -p /etc/sysctl.d/99-security.conf
                 <h2>Gestão Sem Chaves (AWS Systems Manager)</h2>
                 <br>
                 <div style="max-width: 900px; margin: auto;">
-                    <img src="../../evidencias/aws/evidencia_ssm_prompt.png" alt="Tela preta ssm" class="mock-screenshot" style="width: 100%; border-radius: 10px; border: 2px solid var(--segura-mint);">
+                    <img src="../../evidencias/aws/evidencia_ssm_prompt.png" alt="Tela preta ssm"
+                        class="mock-screenshot"
+                        style="width: 100%; border-radius: 10px; border: 2px solid var(--segura-mint); max-height: 40vh; object-fit: contain; background: #000;">
                 </div>
-                <p style="margin-top: 1.5rem; text-align: left; max-width:900px; margin-inline:auto;">Acesso absoluto ao ambiente operacional puramente via console web/SSM utilizando Instance Profiles do IAM. Totalmente "safeless" (sem vazamento de chaves .pem corporativas), fechado via <b>Inbound Rules rígidas de Security Group</b>, blindando 100% a camada externa.</p>
-                <div style="max-width: 900px; margin: auto; margin-top:15px;" class="double-img">
-                    <img src="../../evidencias/aws/aws-sg-inbound-rules-zabbix-server.png" alt="SG Zabbix" style="width:48%; border-radius: 8px; border: 1px solid var(--segura-mint);">
-                    <img src="../../evidencias/aws/aws-sg-inbound-rules-debian-host.png" alt="SG Host" style="width:48%; border-radius: 8px; border: 1px solid var(--segura-orange);">
+                <p style="margin-top: 1.5rem; text-align: left; max-width:900px; margin-inline:auto;">Acesso absoluto ao
+                    ambiente operacional puramente via console web/SSM utilizando Instance Profiles do IAM. Totalmente
+                    "safeless" (sem vazamento de chaves .pem corporativas), abolindo a dependência da Porta 22 e de bastion hosts.</p>
+            </div>
+        </section>
+
+        <!-- SLIDE INTERMEDIARIO: FIREWALL E WHITELISTING -->
+        <section class="slide">
+            <div class="glass-card text-center">
+                <span class="badge warning">Firewall & Whitelisting</span>
+                <h2>Superfície Fechada (Security Groups)</h2>
+                <br>
+                <p style="text-align: left; max-width:900px; margin-inline:auto;">
+                    O ambiente foi blindado de ponta a ponta. <b>Inbound Rules rígidas</b> do Security Group fecharam a porta de administração de forma global e garantem isolamento seguro.
+                </p>
+                <br>
+                <p style="text-align: left; max-width:900px; margin-inline:auto; color: var(--text-muted);">
+                    <i>Além disso, as próprias interfaces web de gerência (Zabbix/Grafana) foram restritas via Terraform para aceitar conexões exclusivas de IPs Públicos na lista de permissão (Whitelisting), mutável agilmente via `terraform apply`.</i>
+                </p>
+                
+                <div style="max-width: 900px; margin: auto; margin-top:25px;" class="double-img">
+                    <img src="../../evidencias/aws/aws-sg-inbound-rules-zabbix-server.png" alt="SG Zabbix"
+                        style="width:48%; border-radius: 8px; border: 1px solid var(--segura-mint);">
+                    <img src="../../evidencias/aws/aws-sg-inbound-rules-debian-host.png" alt="SG Host"
+                        style="width:48%; border-radius: 8px; border: 1px solid var(--segura-orange);">
                 </div>
             </div>
         </section>
@@ -181,38 +242,52 @@ sysctl -p /etc/sysctl.d/99-security.conf
             <div class="glass-card text-center">
                 <span class="badge highlight">O Desafio Núcleo - Multi-Cloud</span>
                 <h2>Monitoramento Lógico e Analytics Nativo</h2>
-                
+
                 <p style="margin-top: 1rem; text-align: left; max-width:900px; margin-inline:auto;">
-                    <b>1. On-Premises (Vagrant)</b>: Integração fina entre Zabbix Server e os Daemons Host Locais. Prova visual (ZBX Verde) de detecção da Falha Simulada (Alarme Not Available 3m na infraestrutura isolada.)
-                    <br><b>2. Zabbix Nuvem (AWS EBS)</b>: O Monitoramento de Cloud detectando o alarme de disco crítico da máquina monitorada, provando que o agente Zabbix roda perfeito e fluido nativo na Nuvem.
+                    <b>1. On-Premises (Vagrant)</b>: Integração fina entre Zabbix Server e os Daemons Host Locais. Prova
+                    visual (ZBX Verde) de detecção da Falha Simulada (Alarme Not Available 3m na infraestrutura
+                    isolada.)
+                    <br><b>2. Zabbix Nuvem (AWS EBS)</b>: O Monitoramento de Cloud detectando o alarme de disco crítico
+                    da máquina monitorada, provando que o agente Zabbix roda perfeito e fluido nativo na Nuvem.
                 </p>
 
                 <div style="max-width: 900px; margin: auto; margin-top:15px; display:flex; gap:10px;">
-                    <img src="../../evidencias/local/host-local-ativo-zabbix.png" alt="Zabbix Hosts" class="mock-screenshot" style="width:32%; border: 2px solid var(--segura-mint);">
-                    <img src="../../evidencias/local/host-local-problema-simulacao.png" alt="Zabbix ALarm" class="mock-screenshot" style="width:32%; border: 2px solid #ff4444;">
-                    <img src="../../evidencias/aws/aws_low_space_debian.png" alt="AWS Zabbix Alert" class="mock-screenshot" style="width:32%; border: 2px solid var(--segura-orange);">
+                    <img src="../../evidencias/local/host-local-ativo-zabbix.png" alt="Zabbix Hosts"
+                        class="mock-screenshot" style="width:32%; border: 2px solid var(--segura-mint);">
+                    <img src="../../evidencias/local/host-local-problema-simulacao.png" alt="Zabbix ALarm"
+                        class="mock-screenshot" style="width:32%; border: 2px solid #ff4444;">
+                    <img src="../../evidencias/aws/aws_low_space_debian.png" alt="AWS Zabbix Alert"
+                        class="mock-screenshot" style="width:32%; border: 2px solid var(--segura-orange);">
                 </div>
             </div>
         </section>
-        
+
         <!-- SLIDE 9: O DASHBOARD GRAFANA -->
         <section class="slide">
-             <div class="glass-card text-center">
-                 <span class="badge highlight">Data Analytics Avançado</span>
-                 <h2>Painéis Gerenciais (AWS Grafana Hub)</h2>
-                 
-                 <p style="margin-bottom: 1rem; text-align: left; max-width:900px; margin-inline:auto;">
-                     <b>2. AWS Cloud (O Over-Deliver)</b>: No cenário nuvem, embarquei o motor analítico do Grafana conectado ao banco do Zabbix. Desenhei múltiplos blocos de métricas para consumo de C-Levels. Abaixo as capturas em tempo real operantes na malha:
-                 </p>
-                 
-                 <div style="display: flex; gap:10px; flex-wrap: wrap; justify-content:center; max-width:1000px; margin:auto;">
-                     <img src="../../evidencias/aws/grafana-dash-pt1.png" style="width: 32%; border-radius: 8px; border: 1px solid var(--segura-orange);">
-                     <img src="../../evidencias/aws/grafana-dash-pt2.png" style="width: 32%; border-radius: 8px; border: 1px solid var(--segura-orange);">
-                     <img src="../../evidencias/aws/grafana-dash-pt3.png" style="width: 32%; border-radius: 8px; border: 1px solid var(--segura-orange);">
-                     <img src="../../evidencias/aws/grafana-dash-pt4.png" style="width: 48%; border-radius: 8px; border: 1px solid var(--segura-orange);">
-                     <img src="../../evidencias/aws/grafana-dash-pt5.png" style="width: 48%; border-radius: 8px; border: 1px solid var(--segura-orange);">
-                 </div>
-             </div>
+            <div class="glass-card text-center">
+                <span class="badge highlight">Data Analytics Avançado</span>
+                <h2>Painéis Gerenciais (AWS Grafana Hub)</h2>
+
+                <p style="margin-bottom: 1rem; text-align: left; max-width:900px; margin-inline:auto;">
+                    <b>2. AWS Cloud (O Over-Deliver)</b>: No cenário nuvem, embarquei o motor analítico do Grafana
+                    conectado ao banco do Zabbix. Desenhei múltiplos blocos de métricas para consumo de C-Levels. Abaixo
+                    as capturas em tempo real operantes na malha:
+                </p>
+
+                <div
+                    style="display: flex; gap:10px; flex-wrap: wrap; justify-content:center; max-width:1000px; margin:auto;">
+                    <img src="../../evidencias/aws/grafana-dash-pt1.png"
+                        style="width: 32%; border-radius: 8px; border: 1px solid var(--segura-orange);">
+                    <img src="../../evidencias/aws/grafana-dash-pt2.png"
+                        style="width: 32%; border-radius: 8px; border: 1px solid var(--segura-orange);">
+                    <img src="../../evidencias/aws/grafana-dash-pt3.png"
+                        style="width: 32%; border-radius: 8px; border: 1px solid var(--segura-orange);">
+                    <img src="../../evidencias/aws/grafana-dash-pt4.png"
+                        style="width: 48%; border-radius: 8px; border: 1px solid var(--segura-orange);">
+                    <img src="../../evidencias/aws/grafana-dash-pt5.png"
+                        style="width: 48%; border-radius: 8px; border: 1px solid var(--segura-orange);">
+                </div>
+            </div>
         </section>
 
         <!-- SLIDE 10: FIM -->
@@ -221,7 +296,8 @@ sysctl -p /etc/sysctl.d/99-security.conf
                 <img src="logo.png" alt="Segura Logo" class="brand-logo" onerror="this.style.display='none'">
                 <h2>Muito obrigado pelo tempo.</h2>
                 <div class="accent-line" style="margin:auto; margin-bottom: 2rem;"></div>
-                <p>Uma arquitetura só é forte quando suportada por uma mentalidade Zero-Trust e uma fundação automatizada. As ferramentas apenas acompanham o Global Support Engineer. 🚀</p>
+                <p>Uma arquitetura só é forte quando suportada por uma mentalidade Zero-Trust e uma fundação
+                    automatizada. As ferramentas apenas acompanham o Global Support Engineer. 🚀</p>
                 <br>
                 <button class="primary-btn" onclick="prevSlide()">Rever Arquitetura</button>
             </div>
@@ -239,4 +315,5 @@ sysctl -p /etc/sysctl.d/99-security.conf
     <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-bash.min.js"></script>
     <script src="script.js"></script>
 </body>
+
 </html>

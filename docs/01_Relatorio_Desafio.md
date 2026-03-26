@@ -2,15 +2,16 @@
 
 **Candidato:** Filipe Éviton Anacleto  
 **Vaga:** Global Support Engineer - **Segura**  
-**Repositório do Código-Fonte (GitHub):** [https://github.com/fevitonanacleto/desafio-segura/tree/main](https://github.com/fevitonanacleto/desafio-segura/tree/main)
+**Repositório do Código-Fonte (GitHub):** [https://github.com/fevitonanacleto/desafio-segura/tree/main](https://github.com/fevitonanacleto/desafio-segura/tree/main)  
+**Apresentação Executiva (Visual):** Para um resumo dinâmico do projeto, acesse e abra o arquivo `docs/apresentacao/index.html` presente no repositório.
 
 ---
 
 ## 1. Visão Executiva e Estratégia "Over-Deliver"
 
-Para este desafio técnico, decidi adotar uma postura extremamente técnica e abrangente, refletindo não apenas o domínio operacional exigido no nível Sênior para o provisionamento local, mas também agregando uma visão profunda de **Segurança (Zero Trust), Hardening de OS e Infraestrutura como Código (IaC)**.
+Para este desafio técnico, decidi adotar uma abordagem técnica e direta, refletindo o domínio operacional exigido no nível Sênior para o provisionamento local, enquanto agrego conceitos de **Segurança (Zero Trust), Hardening de OS e Infraestrutura como Código (IaC)**.
 
-O escopo pedia o provisionamento de servidores locais no VirtualBox e monitoramento via Zabbix. Entreguei o projeto utilizando uma abordagem Híbrida e implacável em **duas frentes**:
+O escopo básico pedia o provisionamento de servidores locais no VirtualBox e monitoramento via Zabbix. Entreguei o projeto adotando uma arquitetura Híbrida em **duas frentes**:
 1. **Cenário On-Premises (Local):** Atendimento 100% fidedigno às especificações técnicas solicitadas via automação Vagrant.
 2. **Cenário Enterprise Nuvem (AWS):** Deploy espelhado de um ambiente de Produção na AWS, utilizando Terraform, Hardening extremo, Acesso sem Chaves SSH (SSM) e Gestão de Custos (FinOps).
 
@@ -30,7 +31,7 @@ A infraestrutura não foi jogada na rede default. Desenhei um isolamento criando
 ![Console AWS EC2](../evidencias/aws/evidencia_aws_console.png)
 
 ### 2.2. Gestão de Identidade e Acesso (IAM Least Privilege)
-Em conformidade radical com as metodologias do produto PAM (Gestão de Acessos Privilegiados) da Segura, a automação do Terraform não utilizou credenciais onipotentes. Criei um usuário sistemático no IAM da AWS, provendo acesso estritamente granular (*Least Privilege*). O robô só tinha o alcance cirúrgico para invocar a Criação de EC2, Subnets e SSM, sem risco de comprometimento do ambiente corporativo amplo. Toda a lógica de bloqueio de serviços desnecessários e Roles de acessos podem ser validadas no código em nuvem do repositório (`iam_ssm.tf`).
+Em alinhamento aos conceitos de um produto PAM (Gestão de Acessos Privilegiados), a automação não utilizou credenciais amplas. Criei um usuário no IAM da AWS garantindo um controle de acesso granular (*Least Privilege*). O Terraform recebeu apenas as permissões estritas para a criação de EC2, Subnets e SSM. Toda a política de permissões pode ser validada no código do repositório (`iam_policy.json`).
 
 **Evidência 2: O Usuário IAM e a Política de Mínimo Privilégio Customizada (JSON)**
 ![Console IAM Least Privilege](../evidencias/aws/evidencia_aws_iam.png)
@@ -42,6 +43,9 @@ Como um candidato alinhado com as políticas de acessos sensíveis (PAM), erradi
 ![Acesso IAM SSM](../evidencias/aws/evidencia_ssm_prompt.png)
 
 **Evidência Extras: Regras Estritas de Zero-Trust nos Security Groups (Inbound Bloqueios)**
+
+Além do bloqueio irrestrito da porta SSH, **as interfaces de gestão web (Zabbix UI e Grafana)** não foram escancaradas para a internet pública (`0.0.0.0/0`). O Terraform foi projetado de forma dinâmica para liberar as portas Web (80, 443, 3000) **exclusivamente para IPs Públicos autorizados (Whitelisting)**. Caso a equipe precise conceder acesso, basta inserir o IP do analista nas variáveis do repositório e executar um `terraform apply`, unindo agilidade administrativa com auditoria rígida.
+
 ![SG Host Debian](../evidencias/aws/aws-sg-inbound-rules-debian-host.png)
 ![SG Host Zabbix](../evidencias/aws/aws-sg-inbound-rules-zabbix-server.png)
 
@@ -55,9 +59,9 @@ Para a camada de Host, o `user_data.sh` não apenas instalou pacotes. Ele implem
 
 ## 3. O Fator Básico: Cenário On-Premise Local 
 
-Para demonstrar respeito às raízes e aos requisitos exatos do edital, repliquei o cenário na arquitetura On-Premises exigida (Debian monitorado). O requisito era estrito: entregar a máquina host monitorada com exatos 2 vCPUs, 4GB de RAM e 20GB de disco configurado em LVM.
+Para demonstrar respeito às raízes e aos requisitos exatos solicitados, repliquei o cenário na arquitetura On-Premises exigida (Debian monitorado). O requisito era estrito: entregar a máquina host monitorada com exatos 2 vCPUs, 4GB de RAM e 20GB de disco configurado em LVM.
 
-Para não recorrer a cliques manuais obsoletos no VirtualBox, criei um Script Vagrant (`Vagrantfile`) que constrói toda a camada de Hardware e formata o volume através da injeção nativa de comandos Linux.
+Para não recorrer a cliques manuais no VirtualBox, criei um Script Vagrant (`Vagrantfile`) que constrói toda a camada de Hardware e formata o volume através da injeção nativa de comandos Linux.
 
 **Evidência 4: Hardware Exigido (2 vCPUs e 4GB RAM) no SO do Debian Vagrant**
 ![Local vCPU](../evidencias/local/host-local-cpu.png)
@@ -87,7 +91,7 @@ Para testar o fluxo de Resposta a Incidentes, causei propositalmente uma interru
 ---
 
 ### 4.2. Cenário Nuvem (O "Over-Deliver" Analítico)
-Na AWS, o Zabbix comprovou a operação contínua e a auditoria em nuvem na EC2 monitorada (`srv-debian-monitorado`). Observei, por exemplo, como o Zabbix armou a sirene perfeitamente quando detectou o uso de disco (EBS 15GB Restrito FinOps) engasgando:
+Na AWS, o Zabbix comprovou a operação contínua e a auditoria em nuvem na EC2 monitorada (`srv-debian-monitorado`). Observei, por exemplo, como o Zabbix armou a sirene perfeitamente quando detectou o uso de disco (EBS 15GB Restrito FinOps) engasgando (causado propositalmente):
 ![Zabbix Elastic Block Store Low Space](../evidencias/aws/aws_low_space_debian.png)
 
 Na AWS, o ecossistema também incorporou um painel analítico **Grafana** rodando na EC2 principal, conectando as bases de dados. 
@@ -103,6 +107,10 @@ Como inovação final deste Case Técnico, consolidei a visão da liderança cor
 
 ---
 
-## 5. Conclusão da Arquitetura Sênior
+## 5. Conclusão da Arquitetura
 
-Foram empregadas dezenas de horas de refinamento neste pipeline para provar que a observabilidade é o fim, mas a infraestrutura base e segura é o meio crítico de toda operação eficiente. O alinhamento perfeito entre as tecnologias empregadas (LVM físico vs Cloud Block Storage / Vagrant vs Terraform) comprova que estou extremamente apto a atuar e ser um Global Support Engineer guiando os clientes finais da Segura.
+Foram empregadas horas de estudo e desenvolvimento neste laboratório para apresentar uma solução técnica sólida ao desafio proposto. A observabilidade é o grande objetivo da ferramenta, mas contar com uma infraestrutura base automatizada e bem arquitetada é o que sustenta a operação no longo prazo.
+
+A documentação abordando desde tecnologias locais (LVM / Vagrant) até cenários em Nuvem (AWS EBS / Terraform / Grafana) reflete a minha dedicação em entregar infraestruturas confiáveis. 
+
+Acredito que os resultados deste laboratório demonstram minha capacidade técnica e meu perfil profissional. Estou à disposição para debater os tópicos abordados e preparado para agregar valor como Global Support Engineer na equipe da Segura.

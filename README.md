@@ -31,7 +31,7 @@ A fim de embasar tecnicamente todas as decisões arquiteturais descritas no Rela
 
 - **1. Zero Trust & Hardening OS** (`/AWSInfraProject/user_data.sh`): Onde a automação Bash erradica agressivamente os serviços do `openssh-server` e injeta proteções severas de Kernel no `sysctl` contra ataques SYN Flood/IP Spoofing.
 - **2. Política de Redes Segurança / Security Groups** (`/AWSInfraProject/security.tf` e `/AWSInfraProject/iam_ssm.tf`): Onde a conexão da Porta 22 (SSH) é bloqueada massivamente e substitui-se o canal de administração por AWS SSM sob perfis Instance Profile.
-- **3. FinOps & Provisionamento Puto** (`/AWSInfraProject/compute.tf`): Define a gestão de discos limitados a 15GB e os comandos restritos do Free Tier declarativos.
+- **3. FinOps & Provisionamento Puro** (`/AWSInfraProject/compute.tf`): Define a gestão de discos limitados a 15GB e os comandos restritos do Free Tier declarativos.
 - **4. On-Premises & LVM Engine** (`/LocalInfraProject/Vagrantfile`): Na linha 40 deste arquivo encontra-se a automação Ruby/Bash que provisiona a máquina física host com 2 vCPUs e formata logicamente o volume inteiro em LVM `vg_data` usando zero cliques de infra.
 - **5. O Relatório Visual de Impacto** (`/docs/apresentacao/index.html`): Portal front-end provendo as capturas de tela, painéis analíticos do Grafana e diagramas provando o Desafio sendo cumprido de ponta a ponta.
 
