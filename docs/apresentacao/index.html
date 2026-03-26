@@ -10,6 +10,8 @@
     <style>
         .split-layout { gap: 1.5rem; }
         .text-content p { font-size: 1.1rem; }
+        .double-img { display: flex; gap: 10px; margin-top: 10px; }
+        .double-img img { width: 48%; border-radius: 8px; border: 1px solid var(--segura-mint); }
     </style>
 </head>
 <body>
@@ -23,7 +25,7 @@
         <section class="slide active">
             <div class="glass-card">
                 <img src="logo.png" alt="Segura Logo" class="brand-logo" onerror="this.style.display='none'">
-                <h1>Engenharia de Cloud & Confiabilidade</h1>
+                <h1>Engenharia de Confiabilidade</h1>
                 <h2>Apresentação Técnica do Desafio Sênior</h2>
                 <div class="accent-line"></div>
                 <p>Abordagem Zero-Trust, Automação Declarativa Terraform e Observabilidade Masterizada.</p>
@@ -37,13 +39,15 @@
                 <div class="text-content">
                     <span class="badge">O Desafio Básico de Edital</span>
                     <h2>Cenário On-Premises Preciso (VirtualBox)</h2>
-                    <p>Subir o Host de monitoramento rigorosamente alinhado ao Desafio de RH: VirtualBox de Custo Zero operando via automação Vagrant (IaC), configurando LVM perfeitamente e 4GB RAM + 2 vCPU sem UI Gráfica ou cliques sujos.</p>
-                    <div class="evidence-box" style="margin-top:10px;">
-                        <img src="evidencia_local_lvm.png" alt="A foto do LVS lscpu vai aqui" class="mock-screenshot" onerror="this.src='https://placehold.co/500x300/003b2b/00c49f?text=INSIRA_PRINT_DO_LSCPU_LVM_AQUI'">
+                    <p>Subir o Host de monitoramento rigorosamente alinhado ao Desafio de RH: VirtualBox de Custo Zero operando via automação Vagrant (IaC), configurando LVM perfeitamente e 4GB RAM + 2 vCPU sem cliques sujos na UI Graphical.</p>
+                    <div class="double-img">
+                        <img src="../../evidencias/local/host-local-cpu.png" alt="CPU">
+                        <img src="../../evidencias/local/host-local-ram.png" alt="RAM">
                     </div>
+                    <img src="../../evidencias/local/host-local-disk.png" style="width:100%; margin-top:10px; border-radius:8px; border:1px solid var(--segura-mint);" alt="LVM">
                 </div>
                 <div class="code-content">
-                    <div class="code-window">
+                    <div class="code-window" style="height: 100%;">
                         <div class="mac-header"><span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span> <span class="filename">Vagrantfile (Trecho LVM)</span></div>
                         <pre><code class="language-ruby">
 # Fixando Hardware
@@ -94,18 +98,32 @@ resource "aws_instance" "srv_debian" {
             </div>
         </section>
         
-        <!-- SLIDE 4: VPC e CONSOLE AWS -->
+        <!-- SLIDE 4: IAM e Políticas Mínimas -->
+        <section class="slide">
+            <div class="glass-card text-center">
+                <span class="badge warning">IAM e Governança (SecOps)</span>
+                <h2>Gestão de Identidade Radical (Least Privilege)</h2>
+                <p style="max-width:800px; margin:auto; margin-bottom: 2rem;">Aderindo ao DNA dos produtos de PAM da Segura, a automação do Terraform rejeitou o uso predatório e fácil de permissões sistêmicas <i>(FullAccess)</i>. O processo IaC foi desenhado usando a política de <b>Privilégio Mínimo</b> via arquitetura JSON cirúrgica. Um robô com capacidade matemática apenas de ler e intervir nos recursos exclusivos do escopo do desafio.</p>
+                <div style="max-width: 800px; margin: auto;">
+                    <img src="../../evidencias/aws/evidencia_aws_iam.png" alt="Tela do AWS IAM" class="mock-screenshot" style="border: 1px solid var(--segura-mint); border-radius: 10px;">
+                </div>
+            </div>
+        </section>
+        
+        <!-- SLIDE 5: VPC e CONSOLE AWS -->
         <section class="slide">
             <div class="glass-card text-center">
                 <span class="badge warning">Enterprise Network</span>
                 <h2>VPC, Subnets Dedicada e Tiers</h2>
-                <p style="max-width:800px; margin:auto; margin-bottom: 2rem;">Os servidores rodam em malhas lógicas perfeitamente isoladas, provando a fundação sólida de rede e provisionamento na nuvem da AWS. Veja as EC2 Zabbix operantes:</p>
-                <!-- Evidencia do painel da AWS com a ec2 ligada e IPs -->
-                <img src="evidencia_aws_console.png" alt="Console AWS" class="mock-screenshot full-image" onerror="this.src='https://placehold.co/1000x400/003b2b/f48b60?text=INSIRA_FOTO_DO_PAINEL_DA_AWS_COM_INSTANCIAS_AQUI'">
+                <p style="max-width:800px; margin:auto; margin-bottom: 1rem;">Os servidores rodam em malhas lógicas perfeitamente isoladas, provando a fundação sólida de rede e provisionamento na nuvem da AWS. Veja as arquiteturas VPC Topologies e EC2 ativas:</p>
+                <div class="double-img" style="justify-content: center;">
+                    <img src="../../evidencias/aws/aws-vpc-resource-map.png" alt="VPC Map">
+                    <img src="../../evidencias/aws/evidencia_aws_console.png" alt="Console AWS">
+                </div>
             </div>
         </section>
 
-        <!-- SLIDE 5: HARDENING DE OS -->
+        <!-- SLIDE 6: HARDENING DE OS -->
         <section class="slide">
             <div class="glass-card split-layout">
                 <div class="text-content">
@@ -141,54 +159,69 @@ sysctl -p /etc/sysctl.d/99-security.conf
             </div>
         </section>
 
-        <!-- SLIDE 6: ZERO TRUST E SSM -->
+        <!-- SLIDE 7: ZERO TRUST E SSM -->
         <section class="slide">
             <div class="glass-card text-center">
                 <span class="badge highlight">PAM Core Vision - Segura</span>
                 <h2>Gestão Sem Chaves (AWS Systems Manager)</h2>
                 <br>
                 <div style="max-width: 900px; margin: auto;">
-                    <img src="evidencia_ssm_prompt.png" alt="Tela preta ssm" class="mock-screenshot" onerror="this.src='https://placehold.co/900x350/003b2b/00c49f?text=INSIRA_PRINT_DO_PROMPT_SSM-USER_AQUI'" style="width: 100%; border-radius: 10px; border: 2px solid #00C49F;">
+                    <img src="../../evidencias/aws/evidencia_ssm_prompt.png" alt="Tela preta ssm" class="mock-screenshot" style="width: 100%; border-radius: 10px; border: 2px solid var(--segura-mint);">
                 </div>
-                <p style="margin-top: 1.5rem; text-align: left; max-width:900px; margin-inline:auto;">Acesso absoluto ao ambiente operacional puramente via console web/SSM utilizando Instance Profiles do IAM. Totalmente "safeless" (sem vazamento de chaves .pem corporativas). Alinhamento perfeito ao propósito do produto core da sua empresa.</p>
+                <p style="margin-top: 1.5rem; text-align: left; max-width:900px; margin-inline:auto;">Acesso absoluto ao ambiente operacional puramente via console web/SSM utilizando Instance Profiles do IAM. Totalmente "safeless" (sem vazamento de chaves .pem corporativas), fechado via <b>Inbound Rules rígidas de Security Group</b>, blindando 100% a camada externa.</p>
+                <div style="max-width: 900px; margin: auto; margin-top:15px;" class="double-img">
+                    <img src="../../evidencias/aws/aws-sg-inbound-rules-zabbix-server.png" alt="SG Zabbix" style="width:48%; border-radius: 8px; border: 1px solid var(--segura-mint);">
+                    <img src="../../evidencias/aws/aws-sg-inbound-rules-debian-host.png" alt="SG Host" style="width:48%; border-radius: 8px; border: 1px solid var(--segura-orange);">
+                </div>
             </div>
         </section>
 
-        <!-- SLIDE 7: OBSERVABILIDADE ZABBIX -->
+        <!-- SLIDE 8: OBSERVABILIDADE ZABBIX E GRAFANA -->
         <section class="slide">
             <div class="glass-card text-center">
-                <span class="badge highlight">O Desafio Núcleo</span>
-                <h2>Monitoramento Lógico Zabbix e Incidentes</h2>
-                <div style="max-width: 900px; margin: auto; margin-top:10px;">
-                    <!-- A foto do desastre Zabbix (Vermelho) ou Dashboard -->
-                    <img src="evidencia_zabbix.png" alt="Zabbix Alarm" class="mock-screenshot full-image" onerror="this.src='https://placehold.co/1000x350/003b2b/ff4444?text=INSIRA_A_FOTO_DO_ALERTA_VERMELHO_ZABBIX_AQUI'">
-                </div>
+                <span class="badge highlight">O Desafio Núcleo - Multi-Cloud</span>
+                <h2>Monitoramento Lógico e Analytics Nativo</h2>
+                
                 <p style="margin-top: 1rem; text-align: left; max-width:900px; margin-inline:auto;">
-                    Integração fina entre Zabbix Server e os Daemons do Agent instalados nas pontas (Hosts ativos com as flags ZBX verdes). E prova visual da resposta do sistema detectando o "Kill Cíclico" (Alarme Not Available 3m) no servidor local.
+                    <b>1. On-Premises (Vagrant)</b>: Integração fina entre Zabbix Server e os Daemons Host Locais. Prova visual (ZBX Verde) de detecção da Falha Simulada (Alarme Not Available 3m na infraestrutura isolada.)
+                    <br><b>2. Zabbix Nuvem (AWS EBS)</b>: O Monitoramento de Cloud detectando o alarme de disco crítico da máquina monitorada, provando que o agente Zabbix roda perfeito e fluido nativo na Nuvem.
                 </p>
-            </div>
-        </section>
 
-        <!-- SLIDE 8: DATA VISUALIZATION GRAFANA -->
-        <section class="slide">
-            <div class="glass-card text-center">
-                <img src="logo.png" alt="Segura Logo" class="brand-logo small" onerror="this.style.display='none'">
-                <h2>A Camada de Data Visualization</h2>
-                <h3 style="color:#00C49F; font-weight:300;">Integração via API Segura com Grafana Dashboard</h3>
-                <br>
-                <div style="max-width: 900px; margin: auto;">
-                    <img src="evidencia_grafana.png" alt="Grafana" class="mock-screenshot" onerror="this.src='https://placehold.co/900x400/003b2b/00c49f?text=INSIRA_PRINT_DO_GRAFANA_AQUI'" style="width: 100%; border-radius: 10px; border: 2px solid #00C49F;">
+                <div style="max-width: 900px; margin: auto; margin-top:15px; display:flex; gap:10px;">
+                    <img src="../../evidencias/local/host-local-ativo-zabbix.png" alt="Zabbix Hosts" class="mock-screenshot" style="width:32%; border: 2px solid var(--segura-mint);">
+                    <img src="../../evidencias/local/host-local-problema-simulacao.png" alt="Zabbix ALarm" class="mock-screenshot" style="width:32%; border: 2px solid #ff4444;">
+                    <img src="../../evidencias/aws/aws_low_space_debian.png" alt="AWS Zabbix Alert" class="mock-screenshot" style="width:32%; border: 2px solid var(--segura-orange);">
                 </div>
             </div>
         </section>
         
-        <!-- SLIDE 9: FIM -->
+        <!-- SLIDE 9: O DASHBOARD GRAFANA -->
+        <section class="slide">
+             <div class="glass-card text-center">
+                 <span class="badge highlight">Data Analytics Avançado</span>
+                 <h2>Painéis Gerenciais (AWS Grafana Hub)</h2>
+                 
+                 <p style="margin-bottom: 1rem; text-align: left; max-width:900px; margin-inline:auto;">
+                     <b>2. AWS Cloud (O Over-Deliver)</b>: No cenário nuvem, embarquei o motor analítico do Grafana conectado ao banco do Zabbix. Desenhei múltiplos blocos de métricas para consumo de C-Levels. Abaixo as capturas em tempo real operantes na malha:
+                 </p>
+                 
+                 <div style="display: flex; gap:10px; flex-wrap: wrap; justify-content:center; max-width:1000px; margin:auto;">
+                     <img src="../../evidencias/aws/grafana-dash-pt1.png" style="width: 32%; border-radius: 8px; border: 1px solid var(--segura-orange);">
+                     <img src="../../evidencias/aws/grafana-dash-pt2.png" style="width: 32%; border-radius: 8px; border: 1px solid var(--segura-orange);">
+                     <img src="../../evidencias/aws/grafana-dash-pt3.png" style="width: 32%; border-radius: 8px; border: 1px solid var(--segura-orange);">
+                     <img src="../../evidencias/aws/grafana-dash-pt4.png" style="width: 48%; border-radius: 8px; border: 1px solid var(--segura-orange);">
+                     <img src="../../evidencias/aws/grafana-dash-pt5.png" style="width: 48%; border-radius: 8px; border: 1px solid var(--segura-orange);">
+                 </div>
+             </div>
+        </section>
+
+        <!-- SLIDE 10: FIM -->
         <section class="slide">
             <div class="glass-card text-center">
                 <img src="logo.png" alt="Segura Logo" class="brand-logo" onerror="this.style.display='none'">
                 <h2>Muito obrigado pelo tempo.</h2>
                 <div class="accent-line" style="margin:auto; margin-bottom: 2rem;"></div>
-                <p>Uma arquitetura só é forte quando suportada por uma mentalidade e uma fundação segura. As ferramentas apenas acompanham o engenheiro.</p>
+                <p>Uma arquitetura só é forte quando suportada por uma mentalidade Zero-Trust e uma fundação automatizada. As ferramentas apenas acompanham o Global Support Engineer. 🚀</p>
                 <br>
                 <button class="primary-btn" onclick="prevSlide()">Rever Arquitetura</button>
             </div>
